@@ -1,13 +1,16 @@
-create database cad_etec_cps;
-use cad_etec_cps;
+CREATE DATABASE cad_etec_cps;
 
-create table cadastro
-	(id 		int 			not null 	primary key,
-	 nome 		varchar(50) 	not null,
-     codigo 	int 			not null,
-     cep 		numeric(8) 		not null,
-     endereco 	varchar(50) 	not null,
-     bairro 	varchar(30) 	not null,
-     cidade 	varchar(30)		not null,
-     latitude 	double 			not null,
-     longitude 	double 			not null);
+USE cad_etec_cps;
+
+CREATE TABLE CADASTRO
+	(ID 		BIGINT 			NOT NULL 	PRIMARY KEY,
+	 NOME 		VARCHAR(50) 	NOT NULL,
+     CODIGO 	INT 			NOT NULL,
+     CEP 		VARCHAR(8) 		NOT NULL,
+     ENDERECO 	VARCHAR(50) 	NOT NULL,
+     BAIRRO 	VARCHAR(30) 	NOT NULL,
+     CIDADE 	VARCHAR(30)		NOT NULL,
+     LATITUDE 	DOUBLE 			NOT NULL,
+     LONGITUDE 	DOUBLE 			NOT NULL);
+     
+DROP DATABASE cad_etec_cps

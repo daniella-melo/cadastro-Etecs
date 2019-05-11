@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Projeto Cadastro ETECs</title>
+</h:head>
+<h:body>
+
+	<h:panelGrid columns="2">
+		<p:commandButton value="Novo" icon="ui-icon-plus"
+			style="margin-right:20px;" onclick="PF('dialogCadastro').show();">
+		</p:commandButton>
+	</h:panelGrid>
+
+	<p:dialog header="Cadastro de ETEC" widgetVar="dialogCadastro"
+		modal="true" height="100%">
+		
+		<h:form method="get" action=".">
+		<p:panelGrid columns="2">
+		
+			<h:outputLabel value="Nome:" />
+			<h:inputText id="nome"/>
+			
+			<h:outputLabel value="Código:" />
+			<h:inputText id="codigo"/>
+			
+			<h:outputLabel value="CEP:" />
+			<h:inputText id="cep" onblur="pesquisacep(this.value);" />
+
+			<h:outputLabel value="Endereço:" />
+			<h:inputText id="endereco"/>
+			
+			<h:outputLabel value="Bairro:" />
+			<h:inputText id="bairro"/>
+			
+			<h:outputLabel value="Cidade:" />
+			<h:inputText id="cidade"/>
+			
+			<h:outputLabel value="Latitude:" />
+			<h:inputText id="latitude"/>
+			
+			<h:outputLabel value="Longitude:" />
+			<h:inputText id="longitude"/>
+			
+				</p:panelGrid>
+			</h:form>
+
+
+
+	</p:dialog>
+	<script type="text/javascript">
+	
+		function retorno(conteudo) {
+			if (!("erro" in conteudo)) {
+				//Atualiza os campos com os valores.
+				document.getElementById('endereco').value = (conteudo.logradouro);
+				document.getElementById('bairro').value = (conteudo.bairro);
+				document.getElementById('cidade').value = (conteudo.localidade);
+			} //end if.
+			else {
+				//CEP não Encontrado.
+				limpa_formulário_cep();
+				alert("CEP não encontrado.");
+			}
+		}
+
+		function pesquisacep(valor) {
+
+			//Nova variável "cep" somente com dígitos.
+			var cep = valor.replace(/\D/g, '');
+
+			//Verifica se campo cep possui valor informado.
+			if (cep != "") {
+
+				//Expressão regular para validar o CEP.
+				var validacep = /^[0-9]{8}$/;
+
+				//Valida o formato do CEP.
+				if (validacep.test(cep)) {
+
+					//Preenche os campos com "..." enquanto consulta webservice.
+					document.getElementById('endereco').value = "...";
+					document.getElementById('bairro').value = "...";
+					document.getElementById('cidade').value = "...";
+
+					//Cria um elemento javascript.
+					var script = document.createElement('script');
+
+					//Sincroniza com o callback.
+					script.src = 'https://viacep.com.br/ws/' + cep
+							+ '/json/?callback=meu_callback';
+
+					//Insere script no documento e carrega o conteúdo.
+					document.body.appendChild(script);
+
+				} //end if.
+				else {
+					//cep é inválido.
+					limpa_formulário_cep();
+					alert("Formato de CEP inválido.");
+				}
+			} //end if.
+			else {
+				//cep sem valor, limpa formulário.
+				limpa_formulário_cep();
+			}
+		};
+	</script>
+</h:body>
+</html>
