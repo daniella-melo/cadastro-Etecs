@@ -29,7 +29,8 @@
 			<h:inputText id="codigo"/>
 			
 			<h:outputLabel value="CEP:" />
-			<h:inputText id="cep" onblur="pesquisacep(this.value);" />
+			<p:inputMask id="cep" mask="99999-999"
+			onblur="pesquisacep(this.value);" />
 
 			<h:outputLabel value="Endereço:" />
 			<h:inputText id="endereco"/>
@@ -79,14 +80,7 @@
 				//Expressão regular para validar o CEP.
 				var validacep = /^[0-9]{8}$/;
 
-				//Valida o formato do CEP.
-				if (validacep.test(cep)) {
-
-					//Preenche os campos com "..." enquanto consulta webservice.
-					document.getElementById('endereco').value = "...";
-					document.getElementById('bairro').value = "...";
-					document.getElementById('cidade').value = "...";
-
+				
 					//Cria um elemento javascript.
 					var script = document.createElement('script');
 
@@ -99,15 +93,10 @@
 
 				} //end if.
 				else {
-					//cep é inválido.
-					limpa_formulário_cep();
+					//cep é inválido
 					alert("Formato de CEP inválido.");
 				}
-			} //end if.
-			else {
-				//cep sem valor, limpa formulário.
-				limpa_formulário_cep();
-			}
+			
 		};
 	</script>
 </h:body>
