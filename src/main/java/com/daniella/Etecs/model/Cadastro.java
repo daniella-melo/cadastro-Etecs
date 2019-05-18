@@ -26,13 +26,13 @@ public class Cadastro extends BaseORM{
 	private String nome;
 	
 	@Column(name="CODIGO")
-	private int codigo;
+	private Integer codigo;
 	
 	@Column(name="CEP")
-	private String CEP;
+	private String cep;
 	
 	@Column(name="ENDERECO")
-	private String endereco;
+	private String logradouro;
 	
 	@Column(name="BAIRRO")
 	private String bairro;

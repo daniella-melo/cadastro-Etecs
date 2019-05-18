@@ -1,5 +1,7 @@
 package com.daniella.Etecs.view;
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -22,5 +24,23 @@ public class CadastroMB extends BaseMB {
 	private CadastroSB cadastroSB;
 	
 	private Cadastro edit = new Cadastro();
+	
+	public void onSave() {
+		cadastroSB.save(edit);
+		showInsertMessage();
+  }
+	
+	
+	
+	private String message;
+	 
+    public String getMessage() {
+        return message;
+    }
+ 
+    public void setMessage(String message) {
+        this.message = message;
+    }
+     
 	
 }

@@ -24,4 +24,5 @@ public class CadastroSB extends BaseSB {
 		cadastroDAO.save(cadastro);
 	}
 	
+	
 }

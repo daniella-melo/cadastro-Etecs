@@ -16,51 +16,65 @@
 		</p:commandButton>
 	</h:panelGrid>
 
-	<p:dialog header="Cadastro de ETEC" widgetVar="dialogCadastro"
-		modal="true" height="100%">
-		
-		<h:form method="get" action=".">
-		<p:panelGrid columns="2">
-		
-			<h:outputLabel value="Nome:" />
-			<h:inputText id="nome"/>
-			
-			<h:outputLabel value="Código:" />
-			<h:inputText id="codigo"/>
-			
-			<h:outputLabel value="CEP:" />
-			<p:inputMask id="cep" mask="99999-999"
-			onblur="pesquisacep(this.value);" />
 
-			<h:outputLabel value="Endereço:" />
-			<h:inputText id="endereco"/>
-			
-			<h:outputLabel value="Bairro:" />
-			<h:inputText id="bairro"/>
-			
-			<h:outputLabel value="Cidade:" />
-			<h:inputText id="cidade"/>
-			
-			<h:outputLabel value="Latitude:" />
-			<h:inputText id="latitude"/>
-			
-			<h:outputLabel value="Longitude:" />
-			<h:inputText id="longitude"/>
-			
-				</p:panelGrid>
-			</h:form>
+	<h:form id="form">
+		<p:dialog header="Cadastro de ETEC" widgetVar="dialogCadastro"
+			modal="true" height="100%">
+
+			<h:panelGrid columns="2">
+
+				<h:outputLabel value="Nome:" />
+				<h:inputText id="nome" value="#{cadastroMB.edit.nome}" />
+
+				<h:outputLabel value="Código:" />
+				<h:inputText id="codigo" value="#{cadastroMB.edit.codigo}" />
+
+				<h:outputLabel value="CEP:" />
+				<p:inputMask id="cep" 
+					onblur="pesquisacep(this.value)" value="#{cadastroMB.edit.cep}" />
+
+				<h:outputLabel value="Endereço:" />
+				<h:inputText id="logradouro" value="#{cadastroMB.edit.logradouro}" />
+
+				<h:outputLabel value="Bairro:" />
+				<h:inputText id="bairro" value="#{cadastroMB.edit.bairro}" />
+
+				<h:outputLabel value="Cidade:" />
+				<h:inputText id="cidade" value="#{cadastroMB.edit.cidade}" />
+
+				<h:outputLabel value="Latitude:" />
+				<h:inputText id="latitude" value="#{cadastroMB.edit.latitude}"/>
+
+				<h:outputLabel value="Longitude:" />
+				<h:inputText id="longitude" value="#{cadastroMB.edit.longitude}" />
+			</h:panelGrid>
+
+			<f:facet name="footer">
+				<p:outputPanel layout="blue" style="text-aling:center" />
+				<p:commandButton value="Confirmar" icon="ui-icon-check"
+					actionListener="#{cadastroMB.onSave()}"
+					 />
+
+				<p:commandButton value="Cancelar" icon="ui-icon-close"
+					oncomplete="PF('dialogCadastro').hide()"  />
+			</f:facet>
+		</p:dialog>
+	</h:form>
 
 
-
-	</p:dialog>
 	<script type="text/javascript">
-	
-		function retorno(conteudo) {
+		function limpa_formulário_cep() {
+			//Limpa valores do formulário de cep.
+			document.getElementById('logradouro').value = ("");
+			document.getElementById('bairro').value = ("");
+			document.getElementById('cidade').value = ("");
+		}
+		function meu_callback(conteudo) {
 			if (!("erro" in conteudo)) {
 				//Atualiza os campos com os valores.
-				document.getElementById('endereco').value = (conteudo.logradouro);
-				document.getElementById('bairro').value = (conteudo.bairro);
-				document.getElementById('cidade').value = (conteudo.localidade);
+				document.getElementById('form:logradouro').value = (conteudo.logradouro);
+				document.getElementById('form:bairro').value = (conteudo.bairro);
+				document.getElementById('form:cidade').value = (conteudo.localidade);
 			} //end if.
 			else {
 				//CEP não Encontrado.
@@ -68,35 +82,34 @@
 				alert("CEP não encontrado.");
 			}
 		}
-
 		function pesquisacep(valor) {
-
 			//Nova variável "cep" somente com dígitos.
 			var cep = valor.replace(/\D/g, '');
-
 			//Verifica se campo cep possui valor informado.
 			if (cep != "") {
-
 				//Expressão regular para validar o CEP.
 				var validacep = /^[0-9]{8}$/;
+				//Valida o formato do CEP.
+				if (validacep.test(cep)) {
 
-				
 					//Cria um elemento javascript.
 					var script = document.createElement('script');
-
 					//Sincroniza com o callback.
 					script.src = 'https://viacep.com.br/ws/' + cep
 							+ '/json/?callback=meu_callback';
-
 					//Insere script no documento e carrega o conteúdo.
 					document.body.appendChild(script);
-
 				} //end if.
 				else {
-					//cep é inválido
+					//cep é inválido.
+					limpa_formulário_cep();
 					alert("Formato de CEP inválido.");
 				}
-			
+			} //end if.
+			else {
+				//cep sem valor, limpa formulário.
+				limpa_formulário_cep();
+			}
 		};
 	</script>
 </h:body>
