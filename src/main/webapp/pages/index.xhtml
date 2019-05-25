@@ -10,6 +10,9 @@
 </h:head>
 <h:body>
 
+	<p:growl id="msgs" widgetVar="msg" showDetail="false" sticky="false"
+		life="7500" />
+		
 	<h:panelGrid columns="2">
 		<p:commandButton value="Novo" icon="ui-icon-plus"
 			style="margin-right:20px;" onclick="PF('dialogCadastro').show();">
@@ -52,7 +55,7 @@
 			<f:facet name="footer">
 				<p:outputPanel layout="blue" style="text-aling:center" />
 				<p:commandButton value="Confirmar" icon="ui-icon-check"
-					actionListener="#{cadastroMB.onSave()}"
+					update=":msgs form" actionListener="#{cadastroMB.onSave()}"
 					 />
 
 				<p:commandButton value="Cancelar" icon="ui-icon-close"

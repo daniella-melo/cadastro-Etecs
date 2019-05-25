@@ -2,11 +2,16 @@ package com.daniella.Etecs.view;
 
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.primefaces.model.DualListModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.daniella.Etecs.bussiness.CadastroSB;
+import com.daniella.Etecs.exceptions.VerificacaoException;
 import com.daniella.Etecs.model.Cadastro;
 
 import br.com.etechoracio.common.view.BaseMB;
@@ -25,9 +30,14 @@ public class CadastroMB extends BaseMB {
 	
 	private Cadastro edit = new Cadastro();
 	
+	
 	public void onSave() {
-		cadastroSB.save(edit);
-		showInsertMessage();
+			try {
+				cadastroSB.save(edit);
+				showInsertMessage();
+			} catch (Exception e) {
+				showErrorMessage(e.getMessage());
+			}
   }
 	
 	

@@ -1,5 +1,7 @@
 package com.daniella.Etecs.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -45,5 +47,7 @@ public class Cadastro extends BaseORM{
 	
 	@Column(name="LONGITUDE")
 	private Double longitude;
+
+
 	
 }
