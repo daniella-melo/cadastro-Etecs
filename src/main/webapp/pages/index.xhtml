@@ -55,7 +55,8 @@
 			<f:facet name="footer">
 				<p:outputPanel layout="blue" style="text-aling:center" />
 				<p:commandButton value="Confirmar" icon="ui-icon-check"
-					update=":msgs form" actionListener="#{cadastroMB.onSave()}"
+					update=":msgs form tblRegistros" actionListener="#{cadastroMB.onSave()}"
+				
 					 />
 
 				<p:commandButton value="Cancelar" icon="ui-icon-close"
@@ -63,7 +64,77 @@
 			</f:facet>
 		</p:dialog>
 	</h:form>
+	<br/>
+	<p:panel header="Registros" id="pnlRegistros"
+			style="width:98%; border:0">
 
+		<p:dataTable id="tblRegistros" var="it" value="#{cadastroMB.registros}"
+					emptyMessage="Nenhum registro encontrado"
+					reflow="true"
+					paginator="true"
+					rows="10"
+					rowsPerPageTemplate="5,10,15"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink}
+									   {PreviousPageLink} {PageLinks}
+									   {RowsPerPageDropdown}">
+					
+					<p:column headerText="Nome"
+							  style="white-space: pre-wrap">
+						<h:outputText value="#{it.nome}"/>
+					</p:column>
+					
+					<p:column headerText="Código"
+							  style="white-space: pre-wrap">
+						<h:outputText value="#{it.codigo}"/>
+					</p:column>
+					
+					<p:column headerText="CEP"
+							  style="white-space: pre-wrap">
+						<h:outputText value="#{it.cep}"/>
+					</p:column>
+					
+					<p:column headerText="Endereço"
+							  style="white-space: pre-wrap">
+						<h:outputText value="#{it.logradouro}"/>
+					</p:column>
+					
+					<p:column headerText="Bairro"
+							  style="white-space: pre-wrap">
+						<h:outputText value="#{it.bairro}"/>
+					</p:column>
+					
+					<p:column headerText="Cidade"
+							  style="white-space: pre-wrap">
+						<h:outputText value="#{it.cidade}"/>
+					</p:column>
+					
+					<p:column headerText="latitude"
+							  style="white-space: pre-wrap">
+						<h:outputText value="#{it.latitude}"/>
+					</p:column>
+					
+					<p:column headerText="longitude"
+							  style="white-space: pre-wrap">
+						<h:outputText value="#{it.longitude}"/>
+					</p:column>
+					
+					<p:column style="text-align: center;"  headerText="Deletar">
+						<p:commandButton id="btnDeletar"
+						 icon="ui-icon-close" title="Deletar"
+						 actionListener="#{cadastroMB.onRemove(it)}"
+						 update="tblRegistros"/>
+					</p:column>
+					
+					<p:column style="text-align: center;" headerText="Editar">
+						<p:commandButton id="btnEditar"
+						 icon="ui-icon-pencil" title="Deletar"
+						 actionListener="#{cadastroMB.onUpdate(it)}"
+						 update="tblRegistros form"
+						 oncomplete="PF('dialogCadastro').show()"/>
+					</p:column>
+					
+		</p:dataTable>		
+	</p:panel>
 
 	<script type="text/javascript">
 		function limpa_formulário_cep() {

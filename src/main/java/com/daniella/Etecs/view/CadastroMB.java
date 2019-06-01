@@ -30,17 +30,36 @@ public class CadastroMB extends BaseMB {
 	
 	private Cadastro edit = new Cadastro();
 	
+	private List<Cadastro> registros;
+	
+	protected void postConstruct() {
+		registros = cadastroSB.findAll();
+	}
 	
 	public void onSave() {
+			if(edit == null) {
 			try {
 				cadastroSB.save(edit);
+				registros = cadastroSB.findAll();
 				showInsertMessage();
 			} catch (Exception e) {
 				showErrorMessage(e.getMessage());
 			}
+		}else {
+				cadastroSB.update(edit);
+		}	
   }
 	
+	public void onRemove(Cadastro cadastro) {
+		cadastroSB.remove(cadastro);
+		registros = cadastroSB.findAll();
+		showDeleteMessage();
+	}
 	
+	public void onUpdate(Cadastro cadastro){
+		edit = cadastroSB.findById(cadastro.getId());
+	
+	} 
 	
 	private String message;
 	 
